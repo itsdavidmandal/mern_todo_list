@@ -1,9 +1,8 @@
 import React from 'react'
-import { type } from './../node_modules/axios/index.d';
 
 function Create() {
   return (
-    <div>
+    <div className='create_form'>
       <input type="text" name='' id='' />
       <button type="button">
         Add
