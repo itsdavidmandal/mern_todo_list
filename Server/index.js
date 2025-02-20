@@ -22,7 +22,24 @@ app.post('/add', (req, res) => {
         .catch(err => res.status(500).json({ error: err.message }))
 })
 
+// app.get ('/get' , (req, res) =>{
+//     TodoModel.find()
+//     console.log(todos)
+//     res.json(todos)
+//     .then(result => res.join(result))
+//     .catch(err => res.json(err))
+// })
 
+
+app.get('/get', async (req, res) => {
+    try {
+        const todos = await TodoModel.find(); // Properly defined 'todos'
+        res.json(todos); // Send the array to the frontend
+    } catch (error) {
+        console.error('Error fetching todos:', error);
+        res.status(500).json({ message: 'Error fetching todos' });
+    }
+});
 
 // Start the server
 app.listen(3001, () => {

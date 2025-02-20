@@ -4,11 +4,19 @@ import axios from 'axios'
 
 function Home() {
     const [ todos, setTodos] = useState([])
-    useEffect(()=>{
+    useEffect(() => {
         axios.get('http://localhost:3001/get')
-        .then(result => setTodos(result.data))
-        .catch(err => console.log(err))
+            .then(result => {
+                console.log(result.data); // Should be an array
+                if (Array.isArray(result.data)) {
+                    setTodos(result.data);
+                } else {
+                    console.error("Data is not an array:", result.data);
+                }
+            })
+            .catch(err => console.log("Axios error:", err))
     }, [])
+    
   return (
     <div className='home'>
       <h2>
@@ -16,12 +24,16 @@ function Home() {
       </h2>
       <Create/>
       {
-        todos.length ===0 ? <div><h2>No records</h2></div>:
-        todos.map(todo=>(
-            <div>
-                {todo}
-            </div>
-        ))
+        todos?.length === 0 ? (
+            <div><h2>No records</h2></div>
+        ) : (
+            Array.isArray(todos) && todos.map(todo => (
+                <div key={todo._id}>
+                    {todo.task}
+                </div>
+            ))
+        )
+        
       }
     </div>
   )
